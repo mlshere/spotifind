@@ -1,6 +1,13 @@
+*{
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+
 .App {
     height: 100%;
-    padding: 0 17% 10% 17%;
+    margin: 0;
     background-image: url('./background_photo_desktop.jpg');
     background-size: cover;
     background-position: center;
@@ -9,8 +16,16 @@
     font-weight: 500;
     color: #fff;
   }
+
+  h1 {
+    text-align: center;
+    background-color: black;
+    width: 100%;
+    padding: 1em;
+  }
   
   .App-playlist {
+    text-align: center;
     display: flex;
     justify-content: space-between;
     width: 100%;
