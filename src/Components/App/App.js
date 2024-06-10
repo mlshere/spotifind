@@ -1,91 +1,68 @@
-import React, {useState, useEffect} from "react";
-import './App.css';
-import SearchBar from '../SearchBar/SearchBar';
-import SearchResults from '../SearchResults/SearchResults';
-import Playlist from '../Playlist/Playlist';
-import { getSpotifyAuthUrl, fetchAccessToken } from "../../auth";
+import React, { useState, useCallback } from "react";
+import "./App.css";
 
+import Playlist from "../Playlist/Playlist";
+import SearchBar from "../SearchBar/SearchBar";
+import SearchResults from "../SearchResults/SearchResults";
+import Spotify from "../../util/spotify";
 
-function App() {
-  const [accessToken, setAccessToken] = useState('');
+const App = () => {
   const [searchResults, setSearchResults] = useState([]);
-  const [playlistName, setPlaylistName] = useState('New Playlist');
+  const [playlistName, setPlaylistName] = useState("New Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
-  useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (code) {
-      fetchAccessToken(code).then(token => setAccessToken(token));
-    }
-  }, [])
+  const search = useCallback((term) => {
+    Spotify.search(term).then(setSearchResults);
+  }, []);
 
-  const searchSpotify = (term) => {
-    if (!accessToken) {
-    console.log('Access token is missing');
-    return;
-  }
+  const addTrack = useCallback(
+    (track) => {
+      if (playlistTracks.some((savedTrack) => savedTrack.id === track.id))
+        return;
 
-  fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  })
-    .then(response => response.json())
-    .then(data => {
-      const tracks = data.tracks.items.map(track => ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        album: track.album.name,
-        uri: track.url
-      }));
-      setSearchResults(tracks);
-    });
-    };
-  
-  const addTrack = (track) => {
-    if (!playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
-      setPlaylistTracks([...playlistTracks, track]);
-    }
-  };
+      setPlaylistTracks((prevTracks) => [...prevTracks, track]);
+    },
+    [playlistTracks]
+  );
 
-  const removeTrack = (track) => {
-    setPlaylistTracks(playlistTracks.filter(savedTrack => savedTrack.id !== track.id));
-  }
+  const removeTrack = useCallback((track) => {
+    setPlaylistTracks((prevTracks) =>
+      prevTracks.filter((currentTrack) => currentTrack.id !== track.id)
+    );
+  }, []);
 
-  const updatePlaylistName = (name) => {
+  const updatePlaylistName = useCallback((name) => {
     setPlaylistName(name);
-  }
+  }, []);
 
-  const savePlaylist = () => {
-    const trackURIs = playlistTracks.map(track => track.uri);
-    console.log(`Saving playlist with tracks: ${trackURIs}`);
-    setPlaylistName('New Playlist');
-    setPlaylistTracks([]);
-  }
+  const savePlaylist = useCallback(() => {
+    const trackUris = playlistTracks.map((track) => track.uri);
+    Spotify.savePlaylist(playlistName, trackUris).then(() => {
+      setPlaylistName("New Playlist");
+      setPlaylistTracks([]);
+    });
+  }, [playlistName, playlistTracks]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>SPOTIFIND</h1>
-      </header>
-      <body>
-        <SearchBar onSearch={searchSpotify}/>
+    <div>
+      <h1>
+        Ja<span className="highlight">mmm</span>ing
+      </h1>
+      <div className="App">
+        <SearchBar onSearch={search} />
         <div className="App-playlist">
-        <SearchResults tracks={searchResults} onAdd={addTrack} />
-        <Playlist
-          playlistTracks={playlistTracks}
-          onRemove={removeTrack}
-          onNameChange={updatePlaylistName}
-          onSave={savePlaylist}
-        />
+          <SearchResults searchResults={searchResults} onAdd={addTrack} />
+          <Playlist
+            playlistName={playlistName}
+            playlistTracks={playlistTracks}
+            onNameChange={updatePlaylistName}
+            onRemove={removeTrack}
+            onSave={savePlaylist}
+          />
         </div>
-      </body>
-      <footer>
-        <p>Created with passion by Sherezade Maqueda</p>
-      </footer>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
