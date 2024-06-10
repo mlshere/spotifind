@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import { fetchAccessToken } from "../../auth";
+import { getSpotifyAuthUrl, fetchAccessToken } from "../../auth";
 
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
 
   const searchSpotify = (term) => {
     if (!accessToken) {
-    console.log(`Searching for ${term}`);
+    console.log('Access token is missing');
     return;
   }
 
@@ -32,7 +32,7 @@ function App() {
   })
     .then(response => response.json())
     .then(data => {
-      const tracks = data.tracks.item.map(track => ({
+      const tracks = data.tracks.items.map(track => ({
         id: track.id,
         name: track.name,
         artist: track.artists[0].name,

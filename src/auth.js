@@ -1,5 +1,5 @@
 const clientId = '14cb9a4af0344425976a6c6a19546848';
-const redirectUri = 'http://localhost:3000';
+const redirectUri = 'http://localhost:3000/';
 const scopes = [
     'user-read-private',
     'user-read-email',
@@ -10,7 +10,14 @@ const scopes = [
 
 export const getSpotifyAuthUrl = () => {
     const authEndpoint = 'https://accounts.spotify.com/authorize';
-    return `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
+    const queryParams = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        scope: scopes.join(' '),
+        response_type: 'code',
+        show_dialog: true
+    });
+    return `${authEndpoint}?${queryParams}`;
 };
 
 export const fetchAccessToken = async (code) => {
