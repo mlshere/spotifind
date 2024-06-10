@@ -33,6 +33,13 @@
     width: 100%;
   }
   
+  footer {
+    text-align: left;
+    margin-top: 1em;
+    padding: 1em;
+    background-color: black;
+    color: white;
+  }
   @media only screen and (max-width: 1020px) {
     .App-playlist {
       align-items: center;
