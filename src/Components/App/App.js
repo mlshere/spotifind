@@ -3,22 +3,45 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import { fetchAccessToken } from "../../auth";
 
 
 function App() {
+  const [accessToken, setAccessToken] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [playlistName, setPlaylistName] = useState('New Playlist');
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get('code');
+    if (code) {
+      fetchAccessToken(code).then(token => setAccessToken(token));
+    }
+  }, [])
+
   const searchSpotify = (term) => {
+    if (!accessToken) {
     console.log(`Searching for ${term}`);
-    const tracks = [
-      { id: 1, name: 'Track 1', artist: 'Artist 1', album: 'Album 1' },
-      { id: 2, name: 'Track 2', artist: 'Artist 2', album: 'Album 2' },
-      { id: 3, name: 'Track 3', artist: 'Artist 3', album: 'Album 3' },
-    ];
-    setSearchResults(tracks);
-  };
+    return;
+  }
+
+  fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      const tracks = data.tracks.item.map(track => ({
+        id: track.id,
+        name: track.name,
+        artist: track.artists[0].name,
+        album: track.album.name,
+        uri: track.url
+      }));
+      setSearchResults(tracks);
+    });
+    };
   
   const addTrack = (track) => {
     if (!playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
