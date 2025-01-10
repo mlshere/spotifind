@@ -35,7 +35,8 @@ To get started with Spotifind, follow these steps:
 4.  Configure environment variables:
 	*   Create a .env file in the root directory of the project.
 	*   Add the following:
-    		* REACT_APP_SPOTIFY_CLIENT_ID=YOUR_SPOTIFY_CLIENT_ID
+    
+   		* REACT_APP_SPOTIFY_CLIENT_ID=YOUR_SPOTIFY_CLIENT_ID
 		* REACT_APP_SPOTIFY_CLIENT_SECRET=YOUR_SPOTIFY_CLIENT_SECRET
 		* REACT_APP_SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
 
