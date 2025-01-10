@@ -25,7 +25,7 @@ Getting Started
 To get started with Spotifind, follow these steps:
 
 1.  bashCopy code
-  *   git clone https://github.com/yourusername/spotifind.git
+  *   git clone https://github.com/mlshere/spotifind.git
 2.  bashCopy code
   *  cd spotifind
   * npm install
@@ -34,7 +34,12 @@ To get started with Spotifind, follow these steps:
 	*   Create a new application and note down the client ID.
 4.  Configure environment variables:
 	*   Create a .env file in the root directory of the project.
-	*   plaintextCopy codeREACT\_APP\_SPOTIFY\_CLIENT\_ID=your\_client\_idREACT\_APP\_SPOTIFY\_REDIRECT\_URI=http://localhost:3000/
+	*   Add the following:
+    		* REACT_APP_SPOTIFY_CLIENT_ID=YOUR_SPOTIFY_CLIENT_ID
+		* REACT_APP_SPOTIFY_CLIENT_SECRET=YOUR_SPOTIFY_CLIENT_SECRET
+		* REACT_APP_SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
+
+    		
 5.  bashCopy code
   * npm start
 6.  Open your browser and navigate to
