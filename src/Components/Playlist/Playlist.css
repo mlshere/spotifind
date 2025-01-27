@@ -3,11 +3,12 @@
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  width: 37%;
+  width: 45%;
   max-height: 950px;
   padding: 2.27rem 1.16rem;
   background-color: rgba(1, 12, 63, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
+  margin-bottom: 2rem;
 }
 
 .Playlist input {
@@ -19,6 +20,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.55rem;
   color: #fff;
+  margin-bottom: 1rem;
 }
 
 .Playlist-save {
@@ -48,5 +50,35 @@
 @media only screen and (max-width: 1020px) {
   .Playlist {
     width: 90%;
+  }
+}
+
+@media only screen and (max-width: 1020px) {
+  .Playlist {
+    width: 90%; /* Full width on smaller screens */
+    max-height: 500px; /* Reduce height for smaller screens */
+    padding: 1rem; /* Reduce padding for smaller screens */
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .Playlist input {
+    font-size: 1.25rem; /* Smaller font size for input on mobile */
+  }
+
+  .Playlist-save {
+    width: 8rem; /* Smaller button on mobile */
+    font-size: 0.75rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .Playlist {
+    max-height: 400px; /* Further reduce height for very small screens */
+    padding: 0.75rem; /* Minimal padding for very small screens */
+  }
+
+  .Playlist input {
+    font-size: 1rem; /* Smaller font size for input on very small screens */
   }
 }

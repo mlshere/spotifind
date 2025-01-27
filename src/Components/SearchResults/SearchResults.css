@@ -1,10 +1,11 @@
 .SearchResults {
-    width: 50%;
+    width: 45%;
     height: 950px;
     overflow-y: scroll;
     padding: .88rem;
     background-color: rgba(1, 12, 63, 0.7);
     box-shadow: 0 4px 2px 2px #000000;
+    margin-bottom: 2rem;
   }
   
   ::-webkit-scrollbar {
@@ -14,7 +15,14 @@
   
   @media only screen and (max-width: 1020px) {
     .SearchResults {
-      width: 90%;
-      margin-bottom: 2rem;
+      width: 90%; /* Full width on smaller screens */
+      max-height: 500px; /* Reduce height for smaller screens */
+      padding: 1rem; /* Reduce padding for smaller screens */
     }
   }
+
+  .SearchResults {
+    max-height: 400px; /* Further reduce height for very small screens */
+    padding: 0.75rem; /* Minimal padding for very small screens */
+  }
+  
