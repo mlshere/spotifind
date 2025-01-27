@@ -2,6 +2,9 @@ Spotifind
 =========
 
 Spotifind is a web application that allows users to search for songs, create custom playlists, and save them to their Spotify account. It utilizes the Spotify API for searching tracks and managing playlists.
+
+
+
 ![Screenshot 2025-01-27 at 21 53 21](https://github.com/user-attachments/assets/15086255-82e4-414d-9ddf-ebfed69adf56)
 
 Features
